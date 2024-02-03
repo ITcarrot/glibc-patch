@@ -1,0 +1,47 @@
+#!/bin/bash
+
+if [[ $# -gt 1 ]]; then
+
+echo "Usage:"
+echo "Vscode Server at ~/.vscode-server: $0"
+echo "Specified Vscode Server Location: $0 path/to/.vscode-server"
+echo ""
+
+else
+
+dir=$(cd $(dirname $(readlink -f "$0"))/.. && pwd)
+vscode_dir=~/.vscode-server
+if [[ $# -eq 1 ]]; then
+    vscode_dir=$(readlink -f "$1")
+fi
+echo "Searching $vscode_dir ..."
+
+if ! [[ -e $vscode_dir/bin ]]; then
+    echo "Error: $vscode_dir/bin not found"
+    echo "Info: This may not be the root of vscode server"
+    exit 1
+fi
+check_exec_server=$( ls $vscode_dir/ | grep code- )
+for file in $check_exec_server; do
+    if [[ -x $vscode_dir/$file ]]; then
+        echo "Warning: Exec server detected!"
+        echo "Warning: Setting -> Remote.SSH: Use Exec Server MUST be turn OFF!"
+        break
+    fi
+done
+
+for vscode_version in $( ls $vscode_dir/bin ); do
+    if [[ -x $vscode_dir/bin/$vscode_version/node ]] && [[ -x $vscode_dir/bin/$vscode_version/bin/code-server ]]; then
+        echo "Processing version $vscode_version"
+        rpath=$( $dir/bin/patchelf --print-rpath $vscode_dir/bin/$vscode_version/node | grep $dir/lib )
+        if ! [[ -z "$rpath" ]]; then
+            echo "Already Patched"
+            continue
+        fi
+        $dir/bin/glibc-patch $vscode_dir/bin/$vscode_version/node
+        sed -i 's/skip_check=0/skip_check=1/' $vscode_dir/bin/$vscode_version/bin/code-server
+        echo "Finished"
+    fi
+done
+
+fi

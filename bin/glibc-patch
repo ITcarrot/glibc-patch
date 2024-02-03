@@ -1,0 +1,15 @@
+#!/bin/bash
+
+if [[ $# -eq 1 ]]; then
+
+dir=$(cd $(dirname $(readlink -f "$0"))/.. && pwd)
+$dir/bin/patchelf --add-rpath $dir/lib $1
+$dir/bin/patchelf --set-interpreter $dir/lib/ld-linux-x86-64.so.2 $1
+
+else
+
+echo ""
+echo "Usage: $0 path/to/executable"
+echo ""
+
+fi
