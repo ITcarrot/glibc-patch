@@ -38,6 +38,7 @@ bin/glibc-patch-vscode
   bin/glibc-patch-vscode path/to/.vscode-server
   ```
 5. Vscode server is now available, connect it.
+6. The above process should be done again when the Vscode upgrades.
 
 **WARNING: DO NOT move this repository AFTER any patches!**
 
