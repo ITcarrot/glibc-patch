@@ -1,0 +1,54 @@
+#!/bin/bash
+
+if [[ $# -gt 1 ]]; then
+
+echo "Usage:"
+echo "Antigravity Server at ~/.antigravity-server: $0"
+echo "Specified Antigravity Server Location: $0 path/to/.antigravity-server"
+echo ""
+
+else
+
+dir=$(cd $(dirname $(readlink -f "$0"))/.. && pwd)
+antigravity_dir=~/.antigravity-server
+if [[ $# -eq 1 ]]; then
+    antigravity_dir=$(readlink -f "$1")
+fi
+echo "Searching $antigravity_dir ..."
+
+if ! [[ -e $antigravity_dir/bin ]]; then
+    echo "Error: $antigravity_dir/bin not found"
+    echo "Info: This may not be the root of antigravity server"
+    exit 1
+fi
+
+for version in $( ls $antigravity_dir/bin ); do
+    version_dir="$antigravity_dir/bin/$version"
+    
+    # Patch node binary
+    if [[ -x $version_dir/node ]]; then
+        echo "Processing version $version - node"
+        rpath=$( $dir/bin/patchelf --print-rpath $version_dir/node | grep $dir/lib )
+        if ! [[ -z "$rpath" ]]; then
+            echo "node: Already Patched"
+        else
+            $dir/bin/glibc-patch $version_dir/node
+            echo "node: Finished"
+        fi
+    fi
+    
+    # Patch language_server_linux_x64 binary
+    language_server="$version_dir/extensions/antigravity/bin/language_server_linux_x64"
+    if [[ -x $language_server ]]; then
+        echo "Processing version $version - language_server_linux_x64"
+        rpath=$( $dir/bin/patchelf --print-rpath $language_server | grep $dir/lib )
+        if ! [[ -z "$rpath" ]]; then
+            echo "language_server_linux_x64: Already Patched"
+        else
+            $dir/bin/glibc-patch $language_server
+            echo "language_server_linux_x64: Finished"
+        fi
+    fi
+done
+
+fi

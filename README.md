@@ -42,6 +42,23 @@ bin/glibc-patch-vscode
 
 **WARNING: DO NOT move this repository AFTER any patches!**
 
+### Patch Antigravity Server
+1. Connect to the remote via Antigravity until it fails to start the server
+   - The antigravity server executable will be downloaded in this step
+2. Close Antigravity
+3. Go to the directory of this repository on the remote system, run:
+```bash
+bin/glibc-patch-antigravity
+```
+   - If you change the server install path, run the following instead:
+   ```bash
+   bin/glibc-patch-antigravity path/to/.antigravity-server
+   ```
+4. Antigravity server is now available, connect it.
+5. The above process should be done again when the Antigravity upgrades.
+
+**WARNING: DO NOT move this repository AFTER any patches!**
+
 ## Technical Details
 - ELF editor: [patchelf-0.18.0](http://github.com/NixOS/patchelf)
 - Glibc version: 2.38 from [ubuntu debs](http://archive.ubuntu.com/ubuntu/pool/main/g/glibc/libc6_2.38-3ubuntu1_amd64.deb)
