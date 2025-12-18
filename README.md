@@ -8,7 +8,8 @@ Patch the software with new glibc on old linux system.
 /lib64/libstdc++.so.6: version `CXXABI_*.*.*' not found
 /lib64/libstdc++.so.6: version `GLIBCXX_*.*.**' not found 
 ```
-- Help run vscode server on older linux
+- Help run vscode server on older linux: [Guide](#patch-vscode-server)
+- Help run antigravity server on older linux: [Guide](#patch-antigravity-server)
 
 ## Requirements
 - Operating system: linux_amd64
@@ -25,7 +26,7 @@ bin/glibc-patch path/to/executable
 **WARNING: DO NOT move this repository AFTER any patches!**
 
 ### Patch Vscode Server
-1. Trun OFF the vscode setting -> Remote.SSH: Use Exec Server
+1. Turn OFF the vscode setting -> Remote.SSH: Use Exec Server
 2. Connect to the remote via Vscode Remote.SSH until it fails to start the server
   - The vscode server exectuable will be downloaded in this step
 3. Close Vscode
@@ -43,6 +44,8 @@ bin/glibc-patch-vscode
 **WARNING: DO NOT move this repository AFTER any patches!**
 
 ### Patch Antigravity Server
+By @more-nico
+
 1. Connect to the remote via Antigravity until it fails to start the server
    - The antigravity server executable will be downloaded in this step
 2. Close Antigravity
@@ -63,3 +66,4 @@ bin/glibc-patch-antigravity
 - ELF editor: [patchelf-0.18.0](http://github.com/NixOS/patchelf)
 - Glibc version: 2.38 from [ubuntu debs](http://archive.ubuntu.com/ubuntu/pool/main/g/glibc/libc6_2.38-3ubuntu1_amd64.deb)
 - Libstdc++ version: 13.1 from [ubuntu debs](http://archive.ubuntu.com/ubuntu/pool/main/g/gcc-13/libstdc++6_13.1.0-2ubuntu2~23.04_amd64.deb)
+
