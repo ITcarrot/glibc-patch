@@ -44,7 +44,7 @@ bin/glibc-patch-vscode
 **WARNING: DO NOT move this repository AFTER any patches!**
 
 ### Patch Antigravity Server
-By @more-nico
+By @[more-nico](https://github.com/more-nico)
 
 1. Connect to the remote via Antigravity until it fails to start the server
    - The antigravity server executable will be downloaded in this step
@@ -66,4 +66,5 @@ bin/glibc-patch-antigravity
 - ELF editor: [patchelf-0.18.0](http://github.com/NixOS/patchelf)
 - Glibc version: 2.38 from [ubuntu debs](http://archive.ubuntu.com/ubuntu/pool/main/g/glibc/libc6_2.38-3ubuntu1_amd64.deb)
 - Libstdc++ version: 13.1 from [ubuntu debs](http://archive.ubuntu.com/ubuntu/pool/main/g/gcc-13/libstdc++6_13.1.0-2ubuntu2~23.04_amd64.deb)
+
 
